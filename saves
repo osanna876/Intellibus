@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recent Saves | Disaster Null</title>
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <header>
+    <a href="index.html" class="logo">Disaster Null</a>
+    <nav> 
+    <a href="main page" class="active">Home</a>
+      <a href="report">Report Now</a>
+      <a href="volunteer">Find Help</a>
+      <a href="saves"class="active">Recent Saves</a>
+      <a href="about">About</a>
+      <a href="login">Login</a>
+    </nav>
+  </header>
+
+  <section class="recent">
+    <h1>Recent Saves</h1>
+    <p>These are the latest incidents where communities came together to help.</p>
+
+    <div class="report-card">
+      <h3>🏠 Flooding in Hanover</h3>
+      <p>Volunteers helped 12 families evacuate safely. Supplies distributed within 2 hours.</p>
+    </div>
+
+    <div class="report-card">
+      <h3>🔥 House Fire in St. Andrew</h3>
+      <p>Local responders coordinated with the Fire Department — no casualties reported.</p>
+    </div>
+
+    <div class="report-card">
+      <h3>🌪️ Storm Damage in St. Catherine</h3>
+      <p>10 volunteers cleared blocked roads and assisted elderly residents.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Disaster Null</p>
+  </footer>
+</body>
+</html>
