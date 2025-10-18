@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report a Disaster | Disaster Null</title>
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+  <header>
+    <a href="report.html" class="logo">Disaster Null</a>
+    <nav>
+        <a href="main page" class="active">Home</a>
+        <a href="report" class="active">Report Now</a>
+        <a href="volunteer" class="active">Find Help</a>
+        <a href="saves" class="active">Recent Saves</a>
+        <a href="about" class="active">About</a>
+        <a href="login" class="active">Login</a>
+</nav>
+
+  </header>
+
+  <section class="report">
+    <h1>Report a Disaster</h1>
+    <form action="submit_report.php" method="POST">
+      <label for="name">Your Name:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="location">Location:</label>
+      <input type="text" id="location" name="location" placeholder="City or Parish" required>
+
+      <label for="type">Type of Disaster:</label>
+      <select id="type" name="type" required>
+        <option value="">Select One</option>
+        <option value="flood">Flood</option>
+        <option value="fire">Fire</option>
+        <option value="earthquake">Earthquake</option>
+        <option value="hurricane">Hurricane</option>
+        <option value="landslide">Landslide</option>
+        <option value="other">Other</option>
+      </select>
+
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" rows="4" placeholder="Describe what’s happening..." required></textarea>
+
+      <button type="submit" class="btn">Submit Report</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>© 2025 Disaster Null</p>
+  </footer>
+</body>
+</html>
