@@ -1,4 +1,3 @@
 **Disaster Relief App**
-Upset about slow response times from volunteers and emergency personnel?
-This disaster relief web app now allows you to reach out for help 
+Facing delays from volunteers or emergency personnel during disasters? Our disaster relief web app is designed to change that. When accidents or disasters strike—whether preventable or not—it’s easy to feel helpless. Not anymore. With this app, you can quickly request help by filling out a simple form describing your situation. Our intelligent model ranks the urgency of your request, and the system immediately pings nearby users who can assist. You’ll also have access to a live map that shows your location, nearby helpers, and registered disaster reports, so you can track distance and response times. Plus, you can register new incidents, which will appear on the map for others to see and respond to.
 ***insert read me***
