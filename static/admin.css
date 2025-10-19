@@ -15,7 +15,7 @@ header {
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  background: #002b5b;
+  background: #2C3E50;
   color: white;
   padding: 1.5rem 0;
   margin-bottom: 2rem;
@@ -28,6 +28,7 @@ header nav label, header nav select {
   margin-left: 1rem;
   padding: 0.3rem 0.5rem;
   border-radius: 4px;
+  color: #000000;
 }
 
 /* Table styles */
@@ -52,7 +53,7 @@ tr:nth-child(even) { background: #f9f9f9; }
 
 /* Footer styles */
 footer {
-  background-color: #002b5b;
+  background-color: #2C3E50;
   color: white;
   text-align: center;
   padding: 1.5rem 0;
