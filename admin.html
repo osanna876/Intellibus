@@ -36,6 +36,8 @@
           <th>ID</th>
           <th>Name</th>
           <th>Location</th>
+          <th>Latitude</th>
+          <th>Longitude</th>
           <th>Type</th>
           <th>Description</th>
           <th>Urgency Level</th>
@@ -53,29 +55,34 @@
     const filterSelect = document.getElementById('urgencyFilter');
 
     async function loadReports(filter = '') {
-      let url = '/api/reports';
-      if(filter) url += `?urgency=${filter}`;
-      const res = await fetch(url);
-      const reports = await res.json();
+    let url = '/api/reports';
+    if (filter) url += `?urgency=${filter}`;
+    const res = await fetch(url);
+    const reports = await res.json();
 
-      tableBody.innerHTML = ''; // Clear table
-      reports.forEach(r => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${r.Id}</td>
-          <td>${r.Name}</td>
-          <td>${r.Location}</td>
-          <td>${r.Type}</td>
-          <td>${r.Description}</td>
-          <td>${r['Urgency Level']}</td>
-          <td>${r.Timestamp}</td>
-        `;
-        tableBody.appendChild(tr);
-      });
-    }
+    tableBody.innerHTML = ''; // Clear table
+    reports.forEach(r => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${r.Id}</td>
+        <td>${r.Name}</td>
+        <td>${r.Location || ''}</td>
+        <td>${r.Latitude || ''}</td>
+        <td>${r.Longitude || ''}</td>
+        <td>${r.Type}</td>
+        <td>${r.Description}</td>
+        <td>${r['Urgency Level']}</td>
+        <td>${r.Timestamp}</td>
+      `;
+      tableBody.appendChild(tr);
+    });
+  }
 
-    // Initial load
+
+    // Initial load and polling
     loadReports();
+    // Refresh every 5 seconds so new SOS reports appear quickly
+    setInterval(() => loadReports(filterSelect.value), 5000);
 
     // Filter change
     filterSelect.addEventListener('change', () => {
