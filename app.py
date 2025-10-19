@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, send_from_directory, send_file
-import json, os, time
+import json, os, time, subprocess
 
 
 app = Flask(__name__)
@@ -70,19 +70,34 @@ def report_page():
         name = request.form.get('name')
         location = request.form.get('location')
         disaster_type = request.form.get('type')
-        description = request.form.get('description')
+        description = request.form.get('description', '')
+
+        try:
+            result = subprocess.run(
+            ["classify.exe"],
+            input= description,
+            capture_output= True,
+            text= True,
+            check= True
+        )
+            urgency = result.stdout.strip()
+        except Exception as e:
+            urgency = "Unknown"
+            print("Classifier error:", e)
+
 
         # Load existing reports
         reports = load_reports()
 
         # Create new report entry
         report = {
-            "id": len(reports) + 1,
-            "name": name,
-            "location": location,
-            "type": disaster_type,
-            "description": description,
-            "timestamp": time.strftime("%Y-%m-%d, %H:%M:%S")
+            "Id": len(reports) + 1,
+            "Name": name,
+            "Location": location,
+            "Type": disaster_type,
+            "Description": description,
+            "Urgency Level": urgency,
+            "Timestamp": time.strftime("%Y-%m-%d, %H:%M:%S")
         }
 
         # Add and save
@@ -94,6 +109,12 @@ def report_page():
 
     # Show the report form if GET request (file named 'report')
     return serve_html('report')
+
+
+@app.route('/distance')
+def distance_page():
+    """Serve the interactive distance tracker map."""
+    return serve_html('distance')
 
 
 

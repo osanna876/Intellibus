@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/MinGW-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/MinGW/include/c++/8.1.0",
+                "C:/MinGW-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/MinGW64/include/c++/8.1.0/x86_64-w64-mingw32",
+                "C:/MinGW-w64/x86_64-8.1.0-posix-seh-rt_v6-rev0/MinGW64/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "C:/MinGW/bin/c++.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}

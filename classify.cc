@@ -30,11 +30,10 @@ string classifyUrgency(string text) {
 
 int main() {
     string input;
-    cout << "Enter a description of the situation:\n> ";
     getline(cin, input);
 
     string level = classifyUrgency(input);
-    cout << "\nUrgency Level: " << level << endl;
+     cout << level << endl;
 
     return 0;
 }

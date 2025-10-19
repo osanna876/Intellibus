@@ -1,0 +1,130 @@
+/* Reset some default margins and paddings */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Make body take full viewport height */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.6; /* more vertical spacing between lines */
+  word-spacing: 0.2rem; /* adds horizontal spacing between words */
+}
+
+/* Header styling */
+header {
+  background-color: #000000;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+header .logo {
+  font-size: 1.5em;
+  text-decoration: none;
+  color: white;
+}
+
+header nav a {
+  margin: 5px 12px; /* increased spacing between links */
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  letter-spacing: 0.5px; /* slight spacing between letters */
+}
+
+header nav a.active {
+  text-decoration: underline;
+}
+
+/* Section styling */
+section.saves {
+  padding: 30px 20px; /* more breathing room */
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  overflow-x: auto; /* Table scrolls on small screens */
+}
+
+section.saves h1 {
+  margin-bottom: 20px; /* more space below heading */
+  font-size: 2.2em;
+  text-align: center;
+  letter-spacing: 1px; /* heading letters spaced out */
+}
+
+section.saves p {
+  margin-bottom: 25px; /* more space below paragraph */
+  text-align: center;
+  word-spacing: 0.3rem; /* better readability */
+}
+
+/* Table styling */
+.saves-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 25px;
+}
+
+.saves-table th, .saves-table td {
+  border: 1px solid #ddd;
+  padding: 15px; /* increased padding for better spacing */
+  text-align: center;
+  word-spacing: 0.2rem; /* spacing between words in cells */
+  line-height: 1.5; /* vertical spacing in cells */
+}
+
+.saves-table th {
+  background-color: #f2f2f2;
+}
+
+.saves-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Notes styling */
+.note {
+  font-size: 1em;
+  color: #666;
+  text-align: center;
+  margin-top: 15px;
+  word-spacing: 0.2rem;
+  line-height: 1.5;
+}
+
+/* Footer styling */
+footer {
+  background-color: #f1f1f1;
+  padding: 20px;
+  text-align: center;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  header nav {
+    margin-top: 10px;
+  }
+
+  .saves-table th, .saves-table td {
+    padding: 10px; /* slightly smaller padding on small screens */
+    font-size: 0.95em;
+  }
+
+  section.saves {
+    padding: 20px 10px;
+  }
+}
