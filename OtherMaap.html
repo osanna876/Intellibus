@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Distance Tracker Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <style>
+    #map { 
+      height: 100vh; 
+      width: 100%; 
+    }
+    .control-panel {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+      min-width: 250px;
+    }
+    .control-panel h3 {
+      margin: 0 0 10px 0;
+      color: #333;
+    }
+    .control-panel button {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .control-panel button:hover {
+      background: #0056b3;
+    }
+    .control-panel button.clear {
+      background: #dc3545;
+    }
+    .control-panel button.clear:hover {
+      background: #c82333;
+    }
+    .distance-info {
+      background: #28a745;
+      color: white;
+      padding: 10px;
+      border-radius: 4px;
+      margin: 10px 0;
+      text-align: center;
+      font-weight: bold;
+    }
+    .instructions {
+      font-size: 12px;
+      color: #666;
+      margin: 10px 0;
+    }
+    .marker-info {
+      background: #f8f9fa;
+      padding: 8px;
+      margin: 5px 0;
+      border-radius: 4px;
+      border-left: 4px solid #007bff;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  
+  <div class="control-panel">
+    <h3>📍 Distance Tracker</h3>
+    
+    <div class="instructions">
+      Click on the map to set Point A and Point B
+    </div>
+    
+    <div class="marker-info" id="pointAInfo">
+      <strong>Point A:</strong> Not set
+    </div>
+    
+    <div class="marker-info" id="pointBInfo">
+      <strong>Point B:</strong> Not set
+    </div>
+    
+    <div class="distance-info" id="distanceInfo">
+      Distance: --
+    </div>
+    
+    <button onclick="setPointA()">Set Point A</button>
+    <button onclick="setPointB()">Set Point B</button>
+    <button onclick="useMyLocation()">Use My Location</button>
+    <button onclick="swapPoints()">Swap A ↔ B</button>
+    <button onclick="clearPoints()" class="clear">Clear All Points</button>
+    
+    <div class="instructions">
+      <strong>Mode:</strong> <span id="currentMode">Setting Point A</span>
+    </div>
+  </div>
+
+  <script>
+    // Initialize map
+    const map = L.map('map').fitWorld();
+
+    // Add tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Variables to store markers and line
+    let pointA = null;
+    let pointB = null;
+    let distanceLine = null;
+    let currentMode = 'A'; // 'A' for Point A, 'B' for Point B
+
+    // Set initial view to a reasonable location
+    map.setView([40.7128, -74.0060], 13); // New York as default
+
+    // Try to locate user
+    map.locate({ setView: false, maxZoom: 16 });
+
+    // Update current mode display
+    function updateModeDisplay() {
+      document.getElementById('currentMode').textContent = 
+        currentMode === 'A' ? 'Setting Point A' : 'Setting Point B';
+    }
+
+    // Set Point A mode
+    function setPointA() {
+      currentMode = 'A';
+      updateModeDisplay();
+    }
+
+    // Set Point B mode
+    function setPointB() {
+      currentMode = 'B';
+      updateModeDisplay();
+    }
+
+    // Use current location
+    function useMyLocation() {
+      map.locate({ setView: true, maxZoom: 16 });
+    }
+
+    // Swap points A and B
+    function swapPoints() {
+      if (pointA && pointB) {
+        const tempLatLng = pointA.getLatLng();
+        pointA.setLatLng(pointB.getLatLng());
+        pointB.setLatLng(tempLatLng);
+        updateLineAndDistance();
+      }
+    }
+
+    // Clear all points
+    function clearPoints() {
+      if (pointA) {
+        map.removeLayer(pointA);
+        pointA = null;
+      }
+      if (pointB) {
+        map.removeLayer(pointB);
+        pointB = null;
+      }
+      if (distanceLine) {
+        map.removeLayer(distanceLine);
+        distanceLine = null;
+      }
+      
+      document.getElementById('pointAInfo').innerHTML = '<strong>Point A:</strong> Not set';
+      document.getElementById('pointBInfo').innerHTML = '<strong>Point B:</strong> Not set';
+      document.getElementById('distanceInfo').textContent = 'Distance: --';
+    }
+
+    // Calculate distance between two points in kilometers
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371; // Earth's radius in kilometers
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a = 
+        Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+        Math.sin(dLon/2) * Math.sin(dLon/2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+      const distance = R * c;
+      return distance;
+    }
+
+    // Update the line and distance display
+    function updateLineAndDistance() {
+      if (pointA && pointB) {
+        const latlngA = pointA.getLatLng();
+        const latlngB = pointB.getLatLng();
+        
+        // Remove existing line
+        if (distanceLine) {
+          map.removeLayer(distanceLine);
+        }
+        
+        // Create new line
+        distanceLine = L.polyline([latlngA, latlngB], {
+          color: 'red',
+          weight: 3,
+          opacity: 0.7,
+          dashArray: '10, 10'
+        }).addTo(map);
+        
+        // Calculate distance
+        const distance = calculateDistance(
+          latlngA.lat, latlngA.lng,
+          latlngB.lat, latlngB.lng
+        );
+        
+        // Update distance display
+        document.getElementById('distanceInfo').textContent = 
+          `Distance: ${distance.toFixed(2)} km (${(distance * 0.621371).toFixed(2)} miles)`;
+      }
+    }
+
+    // Handle map clicks
+    map.on('click', function(e) {
+      const latlng = e.latlng;
+      
+      if (currentMode === 'A') {
+        // Remove existing Point A
+        if (pointA) {
+          map.removeLayer(pointA);
+        }
+        
+        // Create new Point A marker
+        pointA = L.marker(latlng, {
+          draggable: true,
+          title: 'Point A - Drag to move'
+        }).addTo(map)
+          .bindPopup('📍 Point A<br>Drag to move')
+          .openPopup();
+        
+        // Update Point A info
+        document.getElementById('pointAInfo').innerHTML = 
+          `<strong>Point A:</strong> ${latlng.lat.toFixed(6)}, ${latlng.lng.toFixed(6)}`;
+        
+        // Switch to Point B mode
+        currentMode = 'B';
+        updateModeDisplay();
+        
+      } else {
+        // Remove existing Point B
+        if (pointB) {
+          map.removeLayer(pointB);
+        }
+        
+        // Create new Point B marker
+        pointB = L.marker(latlng, {
+          draggable: true,
+          title: 'Point B - Drag to move'
+        }).addTo(map)
+          .bindPopup('📍 Point B<br>Drag to move')
+          .openPopup();
+        
+        // Update Point B info
+        document.getElementById('pointBInfo').innerHTML = 
+          `<strong>Point B:</strong> ${latlng.lat.toFixed(6)}, ${latlng.lng.toFixed(6)}`;
+        
+        // Switch back to Point A mode
+        currentMode = 'A';
+        updateModeDisplay();
+      }
+      
+      // Update line and distance
+      updateLineAndDistance();
+      
+      // Add drag event listeners to update distance when markers are moved
+      if (pointA) {
+        pointA.on('drag', updateLineAndDistance);
+      }
+      if (pointB) {
+        pointB.on('drag', updateLineAndDistance);
+      }
+    });
+
+    // Handle location found
+    function onLocationFound(e) {
+      const radius = e.accuracy / 2;
+      
+      L.marker(e.latlng).addTo(map)
+        .bindPopup(`You are within ${radius.toFixed(0)} meters from this point`).openPopup();
+      
+      L.circle(e.latlng, radius).addTo(map);
+    }
+
+    map.on('locationfound', onLocationFound);
+
+    // Handle location error
+    map.on('locationerror', function(e) {
+      alert("Location access denied. Using default location.");
+    });
+
+    // Initialize mode display
+    updateModeDisplay();
+
+    // Add some helpful instructions to the map
+    L.control.attribution({
+      position: 'bottomright',
+      prefix: 'Distance Tracker | <a href="https://leafletjs.com">Leaflet</a>'
+    }).addTo(map);
+
+  </script>
+</body>
+</html>
