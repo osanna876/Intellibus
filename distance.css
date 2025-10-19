@@ -1,0 +1,149 @@
+/* GENERAL RESET & FONT */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+  background-color: #f6f9fc;
+  color: #333;
+}
+
+/* HEADER */
+header {
+  background: #003366;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+header .logo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #00ccff;
+}
+
+nav a.active {
+  border-bottom: 2px solid #00ccff;
+}
+
+/* MAP */
+#map {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* CONTROL PANEL */
+.control-panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  z-index: 1001;
+  min-width: 260px;
+  max-width: 300px;
+  font-size: 0.95rem;
+}
+
+.control-panel h3 {
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+  color: #003366;
+}
+
+.control-panel .instructions {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.control-panel .marker-info {
+  background: #f8f9fa;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  border-left: 4px solid #007bff;
+}
+
+.control-panel .distance-info {
+  background: #28a745;
+  color: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.control-panel button {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.control-panel button:hover {
+  background: #0056b3;
+}
+
+.control-panel button.clear {
+  background: #dc3545;
+}
+
+.control-panel button.clear:hover {
+  background: #c82333;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  .control-panel {
+    top: 10px;
+    right: 10px;
+    padding: 15px;
+    min-width: 220px;
+    font-size: 0.9rem;
+  }
+
+  nav a {
+    margin-left: 10px;
+    font-size: 0.9rem;
+  }
+
+  header {
+    padding: 0.8rem 1rem;
+  }
+}

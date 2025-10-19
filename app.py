@@ -124,6 +124,7 @@ def report_page():
     return serve_html('report')
 
 
+
 @app.route('/distance')
 def distance_page():
     """Serve the interactive distance tracker map."""
@@ -237,7 +238,6 @@ def api_report_location():
     save_reports(reports)
 
     return jsonify({"success": True, "report": report})
-
 
 
 if __name__ == '__main__':

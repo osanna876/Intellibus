@@ -5,13 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Disaster Null | Rapid Relief</title>
   <link rel="stylesheet" href="static/main.css" />
+  
 </head>
 <body>
  
   <header>
-    <a href="/" class="logo">Disaster Null</a>
+    <a href="main_page" class="">Disaster Null</a>
+    
     <nav>
-      <a href="/" class="active">Home</a>
+      <a href="main_page" class="active">Home</a>
       <a href="/report">Report Now</a>
       <a href="/volunteer">Find Help</a>
       <a href="/saves">Recent Saves</a>
@@ -28,6 +30,51 @@
     <div class="home-content">
       <img src="https://www.flaticon.com/free-icon/disaster_4643191" alt="">
       <h1><strong>Disaster Null</strong></h1>
+      <section> 
+      
+        <button id="sosButton" class="sos-btn">Send My Location</button>
+
+        <p id="status"></p>
+
+
+        <script>
+          const sosButton = document.getElementById('sosButton');
+          const status = document.getElementById('status');
+
+
+          sosButton.addEventListener('click', () => {
+            status.textContent = 'Fetching your location...';
+
+
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(async pos => {
+                const { latitude, longitude } = pos.coords;
+                status.textContent = 'Location found! Sending...';
+
+
+                // Send coordinates to backend
+                await fetch('/api/report-location', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ latitude, longitude })
+                });
+
+
+                // Redirect to report form with query params
+                window.location.href = `/report?lat=${latitude}&lon=${longitude}`;
+              }, err => {
+                status.textContent = 'Unable to get location. Please enable GPS.';
+              });
+            } else {
+              status.textContent = 'Geolocation not supported by this browser.';
+            }
+          });
+        </script>
+
+
+      </section>
+      
+     <script src="script.js" defer></script>
       <p class="tagline">Your safety, our priority — help is always available.</p>
       <blockquote>
         <p>"Believe you can and you're halfway there." - Theodore Roosevelt</p>
@@ -36,6 +83,8 @@
         <strong>Our Aim:</strong> To connect people in distress with nearby volunteers and responders in real time using smart reporting tools.
       </p>
       <a href="/report" class="btn">Report a Disaster</a>
+      
+
     </div>
   </section>
 
