@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "Id": 1,
+    "Name": "tiana",
+    "Location": "spainish town",
+    "Type": "earthquake",
+    "Description": "trapped in high water. send help",
+    "Urgency Level": "Critical",
+    "Timestamp": "2025-10-19, 03:40:00"
+  }
+]

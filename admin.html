@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Disaster Null</title>
+  <link rel="stylesheet" href="/static/admin.css">
+</head>
+<body>
+  <header>
+    <h1>Admin Dashboard</h1>
+    <nav>
+        <a href="/" >Home</a>
+      <a href="/report">Report Now</a>
+      <a href="/volunteer">Find Help</a>
+      <a href="/saves">Recent Saves</a>
+      <a href="/distance">Map</a>
+      <a href="/about">About</a>
+
+
+      <label for="urgencyFilter">Filter by Urgency:</label>
+      <select id="urgencyFilter">
+        <option value="">All</option>
+        <option value="Low">Low</option>
+        <option value="High">High</option>
+        <option value="Critical">Critical</option>
+        <option value="Unknown">Unknown</option>
+      </select>
+    </nav>
+  </header>
+
+  <main>
+    <table id="reportsTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Urgency Level</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Rows populated by JS -->
+      </tbody>
+    </table>
+  </main>
+
+  <script>
+    const tableBody = document.querySelector('#reportsTable tbody');
+    const filterSelect = document.getElementById('urgencyFilter');
+
+    async function loadReports(filter = '') {
+      let url = '/api/reports';
+      if(filter) url += `?urgency=${filter}`;
+      const res = await fetch(url);
+      const reports = await res.json();
+
+      tableBody.innerHTML = ''; // Clear table
+      reports.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${r.Id}</td>
+          <td>${r.Name}</td>
+          <td>${r.Location}</td>
+          <td>${r.Type}</td>
+          <td>${r.Description}</td>
+          <td>${r['Urgency Level']}</td>
+          <td>${r.Timestamp}</td>
+        `;
+        tableBody.appendChild(tr);
+      });
+    }
+
+    // Initial load
+    loadReports();
+
+    // Filter change
+    filterSelect.addEventListener('change', () => {
+      loadReports(filterSelect.value);
+    });
+  </script>
+
+ <footer>
+    <p>© 2025 Disaster Null</p>
+    <a href="/admin"class="active">Admin</a>
+  </footer>
+
+</body>
+</html>
