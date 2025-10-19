@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Distance Tracker Map | Disaster Null</title>
+  <link rel="stylesheet" href="distance.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background: #007bff;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a {
+      color: white;
+      margin-left: 15px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffeb3b;
+    }
+
+    nav a.active {
+      text-decoration: underline;
+    }
+
+    #map {
+      height: 100vh;
+      width: 100%;
+    }
+
+    .control-panel {
+      position: absolute;
+      top: 90px;
+      right: 20px;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+      min-width: 250px;
+    }
+
+    .control-panel h3 {
+      margin: 0 0 10px;
+      color: #333;
+    }
+
+    .control-panel button {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .control-panel button:hover {
+      background: #0056b3;
+    }
+
+    .control-panel button.clear {
+      background: #dc3545;
+    }
+
+    .control-panel button.clear:hover {
+      background: #c82333;
+    }
+
+    .distance-info {
+      background: #28a745;
+      color: white;
+      padding: 10px;
+      border-radius: 4px;
+      margin: 10px 0;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .instructions {
+      font-size: 12px;
+      color: #666;
+      margin: 10px 0;
+    }
+
+    .marker-info {
+      background: #f8f9fa;
+      padding: 8px;
+      margin: 5px 0;
+      border-radius: 4px;
+      border-left: 4px solid #007bff;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="main_page" class="logo">Disaster Null</a>
+    <nav>
+      <a href="main_page" class="active">Home</a>
+      <a href="/report">Report Now</a>
+      <a href="/volunteer">Find Help</a>
+      <a href="/saves">Recent Saves</a>
+      <a href="/distance">Map</a>
+      <a href="/about">About</a>
+    </nav>
+  </header>
+
+  <div id="map"></div>
+
+  <div class="control-panel">
+    <h3>📍 Distance Tracker</h3>
+
+    <div class="instructions">
+      Click on the map to set Point A and Point B
+    </div>
+
+    <div class="marker-info" id="pointAInfo">
+      <strong>Point A:</strong> Not set
+    </div>
+
+    <div class="marker-info" id="pointBInfo">
+      <strong>Point B:</strong> Not set
+    </div>
+
+    <div class="distance-info" id="distanceInfo">
+      Distance: --
+    </div>
+
+    <button onclick="setMode('A')">Set Point A</button>
+    <button onclick="setMode('B')">Set Point B</button>
+    <button onclick="useMyLocation()">Use My Location</button>
+    <button onclick="swapPoints()">Swap A ↔ B</button>
+    <button onclick="clearPoints()" class="clear">Clear All Points</button>
+
+    <div class="instructions">
+      <strong>Mode:</strong> <span id="currentMode">Setting Point A</span>
+    </div>
+  </div>
+
+  <script>
+    let map;
+    let pointA = null;
+    let pointB = null;
+    let distanceLine = null;
+    let currentMode = 'A';
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: 18.0179, lng: -76.8099 }, // Default: Kingston, Jamaica
+        zoom: 12,
+      });
+
+      map.addListener("click", (e) => {
+        addPoint(e.latLng);
+      });
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById("currentMode").textContent =
+        currentMode === "A" ? "Setting Point A" : "Setting Point B";
+    }
+
+    function addPoint(location) {
+      if (currentMode === "A") {
+        if (pointA) pointA.setMap(null);
+        pointA = new google.maps.Marker({
+          position: location,
+          map,
+          label: "A",
+          draggable: true,
+        });
+        document.getElementById("pointAInfo").innerHTML =
+          `<strong>Point A:</strong> ${location.lat().toFixed(6)}, ${location.lng().toFixed(6)}`;
+        currentMode = "B";
+      } else {
+        if (pointB) pointB.setMap(null);
+        pointB = new google.maps.Marker({
+          position: location,
+          map,
+          label: "B",
+          draggable: true,
+        });
+        document.getElementById("pointBInfo").innerHTML =
+          `<strong>Point B:</strong> ${location.lat().toFixed(6)}, ${location.lng().toFixed(6)}`;
+        currentMode = "A";
+      }
+      document.getElementById("currentMode").textContent =
+        currentMode === "A" ? "Setting Point A" : "Setting Point B";
+      updateLineAndDistance();
+    }
+
+    function updateLineAndDistance() {
+      if (pointA && pointB) {
+        if (distanceLine) distanceLine.setMap(null);
+
+        distanceLine = new google.maps.Polyline({
+          path: [pointA.getPosition(), pointB.getPosition()],
+          geodesic: true,
+          strokeColor: "#FF0000",
+          strokeOpacity: 0.7,
+          strokeWeight: 2,
+        });
+        distanceLine.setMap(map);
+
+        const distKm = calculateDistance(
+          pointA.getPosition().lat(),
+          pointA.getPosition().lng(),
+          pointB.getPosition().lat(),
+          pointB.getPosition().lng()
+        );
+
+        document.getElementById("distanceInfo").textContent = 
+          `Distance: ${distKm.toFixed(2)} km (${(distKm * 0.621371).toFixed(2)} miles)`;
+      }
+    }
+
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+      const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(lat1 * Math.PI / 180) *
+          Math.cos(lat2 * Math.PI / 180) *
+          Math.sin(dLon / 2) ** 2;
+      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    function swapPoints() {
+      if (pointA && pointB) {
+        const tempPos = pointA.getPosition();
+        pointA.setPosition(pointB.getPosition());
+        pointB.setPosition(tempPos);
+        updateLineAndDistance();
+      }
+    }
+
+    function clearPoints() {
+      if (pointA) pointA.setMap(null);
+      if (pointB) pointB.setMap(null);
+      if (distanceLine) distanceLine.setMap(null);
+      pointA = null;
+      pointB = null;
+      distanceLine = null;
+      document.getElementById("pointAInfo").innerHTML = "<strong>Point A:</strong> Not set";
+      document.getElementById("pointBInfo").innerHTML = "<strong>Point B:</strong> Not set";
+      document.getElementById("distanceInfo").textContent = "Distance: --";
+    }
+
+    function useMyLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((pos) => {
+          const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+          map.setCenter(loc);
+          map.setZoom(15);
+          new google.maps.Marker({
+            position: loc,
+            map,
+            title: "Your Location",
+          });
+        });
+      } else {
+        alert("Geolocation not supported by this browser.");
+      }
+    }
+  </script>
+
+  <script async
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+  </script>
+</body>
+</html>

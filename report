@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Report a Disaster | Disaster Null</title>
-  <link rel="stylesheet" href="/static/main.css">
+  <link rel="stylesheet" href="static/report.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
     #map { height: 400px; width: 100%; margin-top: 20px; display: none; }
@@ -12,9 +12,9 @@
 </head>
 <body>
   <header>
-    <a href="/" class="logo">Disaster Null</a>
+    <a href="main_page" class="">Disaster Null</a>
     <nav>
-        <a href="/">Home</a>
+        <a href="main_page">Home</a>
         <a href="/report" class="active">Report Now</a>
         <a href="/volunteer">Find Help</a>
         <a href="/saves">Recent Saves</a>

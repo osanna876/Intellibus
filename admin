@@ -9,8 +9,9 @@
 <body>
   <header>
     <h1>Admin Dashboard</h1>
+    
     <nav>
-        <a href="/" >Home</a>
+        <a href="main_page" >Home</a>
       <a href="/report">Report Now</a>
       <a href="/volunteer">Find Help</a>
       <a href="/saves">Recent Saves</a>

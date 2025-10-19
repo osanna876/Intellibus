@@ -13,12 +13,6 @@ body {
   line-height: 1.6;
 }
 
-a {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #fff;
-}
-
 /* HEADER */
 header {
   background: #003366;
@@ -33,6 +27,12 @@ header {
 }
 
 header .logo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+a {
   font-size: 1.5rem;
   font-weight: 600;
   color: #fff;
@@ -54,7 +54,7 @@ nav a.active {
   border-bottom: 2px solid #00ccff;
 }
 
-/* RECENT SAVES SECTION */
+/* RECENT SAVES / ABOUT SECTION */
 .recent {
   max-width: 900px;
   margin: 3rem auto;
@@ -125,11 +125,12 @@ footer a:hover {
 @media (max-width: 768px) {
   header {
     flex-direction: column;
+    align-items: flex-start;
     padding: 1rem 2rem;
   }
 
   nav a {
-    margin: 10px 0;
+    margin: 5px 0;
   }
 
   .recent h1 {

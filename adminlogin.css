@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #f6f9fc;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* NAVIGATION */
+nav {
+  background: #003366;
+  padding: 1rem 2rem;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #00ccff;
+}
+
+/* MAIN LOGIN FORM */
+main {
+  max-width: 420px;
+  margin: 6rem auto;
+  padding: 2rem;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+main h2 {
+  margin-bottom: 1.5rem;
+  color: #003366;
+  font-size: 1.8rem;
+}
+
+/* FORM ELEMENTS */
+form label {
+  display: block;
+  font-weight: 500;
+  margin-top: 1rem;
+  margin-bottom: 0.3rem;
+  text-align: left;
+}
+
+form input {
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+form input:focus {
+  border-color: #0073e6;
+  box-shadow: 0 0 5px rgba(0, 115, 230, 0.3);
+  outline: none;
+}
+
+/* BUTTON */
+form button {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 1rem;
+  background: #002b5b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+form button:hover {
+  background: #004080;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 480px) {
+  main {
+    margin: 4rem 1rem;
+    padding: 1.5rem;
+  }
+}

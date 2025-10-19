@@ -1,116 +1,160 @@
-/* Reset some default margins and paddings */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
-/* Make body take full viewport height */
 body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  background-color: #f6f9fc;
+  color: #333;
+  line-height: 1.6;
 }
 
-/* Header styling */
+a {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* HEADER */
 header {
-  background-color: #000000;
-  color: white;
-  padding: 15px 20px;
+  background: #003366;
+  color: #fff;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
+  align-items: center;
+  padding: 1rem 3rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 header .logo {
-  font-size: 1.5em;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+nav a {
+  color: #fff;
   text-decoration: none;
-  color: white;
+  margin-left: 20px;
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
-header nav a {
-  margin: 5px 10px;
-  text-decoration: none;
-  color: white;
-  font-weight: bold;
+nav a:hover {
+  color: #00ccff;
 }
 
-header nav a.active {
-  text-decoration: underline;
+nav a.active {
+  border-bottom: 2px solid #00ccff;
 }
 
-/* Section styling */
-section.volunteers {
-  flex: 1; /* Makes section take remaining space */
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
-  overflow-x: auto; /* Table scrolls on small screens */
-}
-
-section.volunteers h1 {
-  margin-bottom: 10px;
-  font-size: 2em;
+/* VOLUNTEERS SECTION */
+.volunteers {
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 0 2rem;
   text-align: center;
 }
 
-section.volunteers p {
-  margin-bottom: 20px;
-  text-align: center;
+.volunteers h1 {
+  font-size: 2.5rem;
+  color: #003366;
+  margin-bottom: 0.5rem;
 }
 
-/* Table styling */
+.volunteers p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  color: #555;
+}
+
+/* TABLE STYLING */
 .volunteer-table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
-.volunteer-table th, .volunteer-table td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: center;
+.volunteer-table th,
+.volunteer-table td {
+  padding: 12px 15px;
+  text-align: left;
 }
 
 .volunteer-table th {
-  background-color: #f2f2f2;
+  background-color: #003366;
+  color: #fff;
+  font-weight: 600;
 }
 
 .volunteer-table tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #f2f6fc;
 }
 
-/* Notes styling */
+.volunteer-table tr:hover {
+  background-color: #e6f3ff;
+  transition: 0.3s;
+}
+
+.volunteer-table a {
+  color: #0073e6;
+  text-decoration: none;
+}
+
+.volunteer-table a:hover {
+  text-decoration: underline;
+}
+
+/* NOTE */
 .note {
-  font-size: 0.9em;
-  color: #666;
-  text-align: center;
-  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #777;
+  font-style: italic;
 }
 
-/* Footer styling */
+/* FOOTER */
 footer {
-  background-color: #2C3E50;
-  padding: 15px 20px;
+  background: #003366;
+  color: white;
   text-align: center;
+  padding: 1.2rem 0;
+  margin-top: 2rem;
 }
 
-/* Responsive tweaks */
+footer a {
+  color: #00ccff;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* RESPONSIVE DESIGN */
 @media (max-width: 768px) {
   header {
     flex-direction: column;
-    align-items: flex-start;
+    padding: 1rem 2rem;
   }
 
-  header nav {
-    margin-top: 10px;
+  nav a {
+    margin: 10px 0;
+  }
+
+  .volunteers h1 {
+    font-size: 2rem;
   }
 
   .volunteer-table th, .volunteer-table td {
-    padding: 8px;
-    font-size: 0.9em;
+    padding: 8px 10px;
   }
 }
