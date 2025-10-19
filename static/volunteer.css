@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #f6f9fc;
+  color: #333;
+  line-height: 1.6;
+}
+
+a {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* HEADER */
+header {
+  background: #003366;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+header .logo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #00ccff;
+}
+
+nav a.active {
+  border-bottom: 2px solid #00ccff;
+}
+
+/* VOLUNTEERS SECTION */
+.volunteers {
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.volunteers h1 {
+  font-size: 2.5rem;
+  color: #003366;
+  margin-bottom: 0.5rem;
+}
+
+.volunteers p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  color: #555;
+}
+
+/* TABLE STYLING */
+.volunteer-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.volunteer-table th,
+.volunteer-table td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.volunteer-table th {
+  background-color: #003366;
+  color: #fff;
+  font-weight: 600;
+}
+
+.volunteer-table tr:nth-child(even) {
+  background-color: #f2f6fc;
+}
+
+.volunteer-table tr:hover {
+  background-color: #e6f3ff;
+  transition: 0.3s;
+}
+
+.volunteer-table a {
+  color: #0073e6;
+  text-decoration: none;
+}
+
+.volunteer-table a:hover {
+  text-decoration: underline;
+}
+
+/* NOTE */
+.note {
+  font-size: 0.9rem;
+  color: #777;
+  font-style: italic;
+}
+
+/* FOOTER */
+footer {
+  background: #003366;
+  color: white;
+  text-align: center;
+  padding: 1.2rem 0;
+  margin-top: 2rem;
+}
+
+footer a {
+  color: #00ccff;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    padding: 1rem 2rem;
+  }
+
+  nav a {
+    margin: 10px 0;
+  }
+
+  .volunteers h1 {
+    font-size: 2rem;
+  }
+
+  .volunteer-table th, .volunteer-table td {
+    padding: 8px 10px;
+  }
+}

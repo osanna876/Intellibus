@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #f6f9fc;
+  color: #333;
+  line-height: 1.6;
+}
+
+a {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* HEADER */
+header {
+  background: #003366;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+header .logo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #00ccff;
+}
+
+nav a.active {
+  border-bottom: 2px solid #00ccff;
+}
+
+/* HOME SECTION */
+.home {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4rem 3rem;
+  background: linear-gradient(to right, #ffffff, #e6f3ff);
+}
+
+.home-img {
+  flex: 1;
+  background: url('https://cdn-icons-png.flaticon.com/512/4643/4643191.png') no-repeat center;
+  background-size: contain;
+  height: 300px;
+}
+
+.home-content {
+  flex: 1;
+  padding-left: 2rem;
+}
+
+.home-content h1 {
+  font-size: 2.5rem;
+  color: #003366;
+}
+
+.home-content .tagline {
+  font-size: 1.2rem;
+  margin: 1rem 0;
+  color: #0073e6;
+}
+
+.home-content blockquote {
+  font-style: italic;
+  border-left: 4px solid #00ccff;
+  padding-left: 10px;
+  margin-bottom: 1rem;
+  color: #555;
+}
+
+.mission {
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.btn {
+  display: inline-block;
+  background: #0073e6;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 30px;
+  text-decoration: none;
+  transition:  0.3s ease;
+}
+
+.btn:hover {
+  background: #005bb5;
+}
+
+/* FOOTER */
+footer {
+  background: #003366;
+  color: white;
+  text-align: center;
+  padding: 1.2rem 0;
+  margin-top: 2rem;
+}
+
+footer a {
+  color: #00ccff;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  .home {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .home-img {
+    margin-bottom: 1.5rem;
+  }
+
+  .home-content {
+    padding-left: 0;
+  }
+
+  header {
+    flex-direction: column;
+  }
+
+  nav a {
+    margin: 10px;
+  }
+}
+
+.sos-btn {
+ display: inline-block;
+  background: red;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 30px;
+  text-decoration: none;
+  transition:  0.3s ease;
+  position: relative;
+  left: 100px;
+}
+
+.sos-btn:hover {
+  background-color: darkred;
+}
+
+#status {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #333;
+}
