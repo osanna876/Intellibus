@@ -1,35 +1,44 @@
-from flask import Flask, request, jsonify
-from utils.classifier import classify_urgency
+from flask import Flask, request, jsonify, send_from_directory, abort
 import json, os, time
 
 
 app = Flask(__name__)
+
 Report_Files = "database/reports.json"
+base_dir = os.path.abspath(os.path.dirname(__file__))
+
 
 #initialize data stores for reports
 
-if not os.path.exists:
+if not os.path.exists(Report_Files):
     with open(Report_Files, "w") as f:
         json.dump([],f)
 
-@app.route('/report', methods=['POST'])
-def add_report():
-    data = request.get_json()
-    description = data.get('description', '')
-    location = data.get('location', '')
 
-    urgency = classify_urgency(description)
-    report = {
-        "id": int(time.time()),
-        "location": location,
-        "description": description,
-        "urgency": urgency
-    }
+@app.route('/')
+def index():
+    return send_from_directory(base_dir, 'main page.html')
 
-    reports = load_reports()
-    reports.append(report)
-    save_reports(reports)
-    return jsonify({"message": "Report added successfully", "report": report}), 201
+
+@app.route('/report', methods=['submit'])
+def report_page():
+    return send_from_directory(base_dir, 'report.html')
+
+@app.route('/volunteer')
+def volunteer_page():
+    return send_from_directory(base_dir, 'volunteer.html')
+
+@app.route('/about')
+def about_page():
+    return send_from_directory(base_dir, 'about.hmtl')
+
+@app.route('/saves')
+def saves_page():
+    return send_from_directory(base_dir, 'saves.html')
+
+@app.route('/login')
+def login_page():
+    return send_from_directory(base_dir,'login.html')
 
 @app.route('/reports', methods=['GET'])
 def get_reports():
@@ -38,13 +47,14 @@ def get_reports():
 
 
 def load_reports():
-    with open(Report_Files) as f:
+    with open(Report_Files, encoding='utf-8') as f:
         return json.load(f)
 
+
 def save_reports(data):
-    with open(Report_Files, "w") as f:
-        json.dump(data, f, indent=2)
+    with open(Report_Files, "w", encoding='utf-8') as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug = True)
