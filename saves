@@ -4,19 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recent Saves | Disaster Null</title>
-  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="static/main.css">
 </head>
 
 <body>
   <header>
-    <a href="index.html" class="logo">Disaster Null</a>
+    <a href="/" class="logo">Disaster Null</a>
     <nav> 
-    <a href="main page" class="active">Home</a>
-      <a href="report">Report Now</a>
-      <a href="volunteer">Find Help</a>
-      <a href="saves"class="active">Recent Saves</a>
-      <a href="about">About</a>
-      <a href="login">Login</a>
+      <a href="/">Home</a>
+      <a href="/report">Report Now</a>
+      <a href="/volunteer">Find Help</a>
+      <a href="/saves"class="active">Recent Saves</a>
+      <a href="/about">About</a>
+      <a href="/login">Login</a>
     </nav>
   </header>
 

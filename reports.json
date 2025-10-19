@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "tiana",
+    "location": "sapin town",
+    "type": "flood",
+    "description": "trapped and need help urgently",
+    "timestamp": "2025-10-18, 22:46:09"
+  },
+  {
+    "id": 2,
+    "name": "tiana",
+    "location": "sapin town",
+    "type": "flood",
+    "description": "trapped and need help urgently",
+    "timestamp": "2025-10-18, 22:53:36"
+  },
+  {
+    "id": 3,
+    "name": "jhav",
+    "location": "spajnd",
+    "type": "earthquake",
+    "description": "gahdvna stuck",
+    "timestamp": "2025-10-18, 22:54:00"
+  }
+]
