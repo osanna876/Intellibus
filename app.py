@@ -1,11 +1,19 @@
 from flask import Flask, request, jsonify, send_from_directory, send_file
 import json, os, time, subprocess
 
+#needed for admin authorization
+from functools import wraps
+from flask import session, redirect, url_for, flash
+
+
 
 app = Flask(__name__)
 
 Report_Files = "reports.json"
 base_dir = os.path.abspath(os.path.dirname(__file__))
+
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "grahpap")
+
 
 
 def serve_html(name):
@@ -126,6 +134,70 @@ def load_reports():
 def save_reports(data):
     with open(Report_Files, "w", encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
+
+#admin things
+
+def login_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if not session.get('is_admin'):
+            # not logged in -> redirect to login page
+            return redirect(url_for('admin_login', next=request.path))
+        return f(*args, **kwargs)
+    return decorated
+
+
+# Only valid credentials (demo)
+ADMIN_USERNAME = "admin287"
+ADMIN_PASSWORD = "admin287@31"
+
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    # If already logged in, go to dashboard
+    if session.get('is_admin'):
+        return redirect(url_for('admin_dashboard'))
+
+    if request.method == 'POST':
+        username = request.form.get('username', '')
+        password = request.form.get('password', '')
+
+        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+            session['is_admin'] = True
+            # optional: store username
+            session['admin_user'] = username
+            # redirect to next (if provided) or admin dashboard
+            next_url = request.args.get('next') or url_for('admin_dashboard')
+            return redirect(next_url)
+        else:
+            # invalid credentials
+            flash('Invalid username or password', 'error')
+            return redirect(url_for('admin_login'))
+
+    # GET -> serve the HTML login form file named 'admin_login' (or admin_login.html)
+    return serve_html('admin_login')
+
+
+@app.route('/admin/logout')
+def admin_logout():
+    session.pop('is_admin', None)
+    session.pop('admin_user', None)
+    flash('Logged out', 'info')
+    return redirect(url_for('admin_login'))
+
+@app.route('/admin')
+@login_required
+def admin_dashboard():
+    return serve_html('admin')   # 'admin' file served same way as others
+
+@app.route('/api/reports')
+@login_required
+def get_reports():
+    urgency_filter = request.args.get('urgency')
+    reports = load_reports()
+    if urgency_filter:
+        reports = [r for r in reports if r.get('Urgency Level') == urgency_filter]
+    return jsonify(reports)
+
 
 
 if __name__ == '__main__':
