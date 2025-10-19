@@ -9,9 +9,9 @@
 
 <body>
   <header>
-    <a href="main_page" class="">Disaster Null</a>
+    <a href="/" class="logo">Disaster Null</a>
     <nav>
-      <a href="main_page" >Home</a>
+      <a href="/" >Home</a>
       <a href="/report">Report Now</a>
       <a href="/volunteer">Find Help</a>
       <a href="/saves">Recent Saves</a>

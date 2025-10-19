@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Report a Disaster | Disaster Null</title>
-  <link rel="stylesheet" href="static/report.css">
+  <link rel="stylesheet" href="/static/main.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
     #map { height: 400px; width: 100%; margin-top: 20px; display: none; }
@@ -12,9 +12,9 @@
 </head>
 <body>
   <header>
-    <a href="main_page" class="">Disaster Null</a>
+    <a href="/" class="logo">Disaster Null</a>
     <nav>
-        <a href="main_page">Home</a>
+        <a href="/">Home</a>
         <a href="/report" class="active">Report Now</a>
         <a href="/volunteer">Find Help</a>
         <a href="/saves">Recent Saves</a>
@@ -28,14 +28,42 @@
     <h1>Report a Disaster</h1>
     <form action="/report" method="POST">
 
-      <label for="name">Your Name:</label>
-      <input type="text" id="name" name="name" required>
+  <label for="name">Your Name:</label>
+  <input type="text" id="name" name="name">
 
       <label for="location">Location:</label>
       <input type="text" id="location" name="location" placeholder="City or Parish" required>
 
-      <label for="type">Type of Disaster:</label>
-      <select id="type" name="type" required>
+      <label for="latitude">Latitude:</label>
+      <input type="hidden" id="latitude" name="latitude" readonly>
+
+      <label for="longitude">Longitude:</label>
+      <input type="hidden" id="longitude" name="longitude" readonly>
+      <script>
+        // Parse query parameters from URL and populate form fields
+        (function() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const lat = urlParams.get('lat');
+          const lon = urlParams.get('lon');
+          const loc = urlParams.get('loc');
+
+          if (lat && lon) {
+            document.getElementById('latitude').value = lat;
+            document.getElementById('longitude').value = lon;
+          }
+          if (loc) {
+            // If a readable location was provided, set it to the visible location input
+            document.getElementById('location').value = decodeURIComponent(loc);
+          } else if (lat && lon && !loc) {
+            // Optionally show coords if no readable location
+            document.getElementById('location').value = `${parseFloat(lat).toFixed(5)}, ${parseFloat(lon).toFixed(5)}`;
+          }
+        })();
+      </script>
+
+
+  <label for="type">Type of Disaster:</label>
+  <select id="type" name="type">
         <option value="">Select One</option>
         <option value="flood">Flood</option>
         <option value="fire">Fire</option>
@@ -45,8 +73,8 @@
         <option value="other">Other</option>
       </select>
 
-      <label for="description">Description:</label>
-      <textarea id="description" name="description" rows="4" placeholder="Describe what’s happening..." required></textarea>
+  <label for="description">Description:</label>
+  <textarea id="description" name="description" rows="4" placeholder="Describe what’s happening..."></textarea>
 
       <button type="submit" class="btn">Submit Report</button>
     </form>

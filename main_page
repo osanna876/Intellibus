@@ -32,45 +32,44 @@
       <h1><strong>Disaster Null</strong></h1>
       <section> 
       
-          <button id="sosButton" class="sos-btn">Send My Location</button>
+        <button id="sosButton" class="sos-btn">Send My Location</button>
+
+        <p id="status"></p>
 
 
-  <p id="status"></p>
+        <script>
+          const sosButton = document.getElementById('sosButton');
+          const status = document.getElementById('status');
 
 
-  <script>
-    const sosButton = document.getElementById('sosButton');
-    const status = document.getElementById('status');
+          sosButton.addEventListener('click', () => {
+            status.textContent = 'Fetching your location...';
 
 
-    sosButton.addEventListener('click', () => {
-      status.textContent = 'Fetching your location...';
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(async pos => {
+                const { latitude, longitude } = pos.coords;
+                status.textContent = 'Location found! Sending...';
 
 
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(async pos => {
-          const { latitude, longitude } = pos.coords;
-          status.textContent = 'Location found! Sending...';
+                // Send coordinates to backend
+                await fetch('/api/report-location', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ latitude, longitude })
+                });
 
 
-          // Send coordinates to backend
-          await fetch('/api/report-location', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ latitude, longitude })
+                // Redirect to report form with query params
+                window.location.href = `/report?lat=${latitude}&lon=${longitude}`;
+              }, err => {
+                status.textContent = 'Unable to get location. Please enable GPS.';
+              });
+            } else {
+              status.textContent = 'Geolocation not supported by this browser.';
+            }
           });
-
-
-          // Redirect to report form with query params
-          window.location.href = `/report?lat=${latitude}&lon=${longitude}`;
-        }, err => {
-          status.textContent = 'Unable to get location. Please enable GPS.';
-        });
-      } else {
-        status.textContent = 'Geolocation not supported by this browser.';
-      }
-    });
-  </script>
+        </script>
 
 
       </section>

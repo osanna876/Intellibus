@@ -75,10 +75,13 @@ def login_page():
 @app.route('/report', methods=['GET', 'POST'])
 def report_page():
     if request.method == 'POST':
-        name = request.form.get('name')
+        name = request.form.get('name') or 'Anonymous'
         location = request.form.get('location')
-        disaster_type = request.form.get('type')
-        description = request.form.get('description', '')
+        # try to get optional lat/lon fields (may be empty)
+        latitude = request.form.get('latitude') or None
+        longitude = request.form.get('longitude') or None
+        disaster_type = request.form.get('type') or 'Unknown'
+        description = request.form.get('description') or ''
 
         try:
             result = subprocess.run(
@@ -102,6 +105,8 @@ def report_page():
             "Id": len(reports) + 1,
             "Name": name,
             "Location": location,
+            "Latitude": latitude,
+            "Longitude": longitude,
             "Type": disaster_type,
             "Description": description,
             "Urgency Level": urgency,
@@ -117,6 +122,7 @@ def report_page():
 
     # Show the report form if GET request (file named 'report')
     return serve_html('report')
+
 
 
 @app.route('/distance')
@@ -198,6 +204,40 @@ def get_reports():
         reports = [r for r in reports if r.get('Urgency Level') == urgency_filter]
     return jsonify(reports)
 
+
+@app.route('/api/report-location', methods=['POST'])
+def api_report_location():
+    """Accept immediate SOS reports (JSON body with latitude, longitude, optional description/location).
+    This endpoint does not require admin login (it's used by clients reporting emergencies).
+    """
+    try:
+        data = request.get_json() or {}
+    except Exception:
+        data = {}
+
+    latitude = data.get('latitude') or data.get('lat') or None
+    longitude = data.get('longitude') or data.get('lon') or None
+    description = data.get('description') or ''
+    location = data.get('location') or data.get('loc') or (f"{latitude}, {longitude}" if latitude and longitude else 'Unknown')
+
+    # create report with defaults
+    reports = load_reports()
+    report = {
+        "Id": len(reports) + 1,
+        "Name": data.get('name') or 'Anonymous',
+        "Location": location,
+        "Latitude": latitude,
+        "Longitude": longitude,
+        "Type": data.get('type') or 'Unknown',
+        "Description": description,
+        "Urgency Level": data.get('urgency') or 'Unknown',
+        "Timestamp": time.strftime("%Y-%m-%d, %H:%M:%S")
+    }
+
+    reports.append(report)
+    save_reports(reports)
+
+    return jsonify({"success": True, "report": report})
 
 
 if __name__ == '__main__':
